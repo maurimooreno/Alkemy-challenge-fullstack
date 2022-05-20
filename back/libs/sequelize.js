@@ -13,12 +13,13 @@ const sequelize = new Sequelize(URI, {
 
 setupModels(sequelize);
 
-const {} = sequelize.models;
+//Importar modelos en caso de relaciones
+// const {} = sequelize.models;
 
 
 sequelize.sync({ force: false })
   .then(() => {
-    console.log(`created/updated database`);  
+    console.log(`created/updated database`); 
   })
   .catch(err => console.log(err));
 
