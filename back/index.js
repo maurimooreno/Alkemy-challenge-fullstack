@@ -2,7 +2,8 @@ const express = require('express');
 const routerApi = require('./routes')
 const cors = require('cors');
 const { config } = require('./config/config');
-const sequelize = require('./libs/sequelize')
+const sequelize = require('./libs/sequelize');
+const { errorHandler, boomErrorHandler, error404Handler } = require('./middleware/error.handler');
 
 const app = express();
 const port = config.port || 3001;
@@ -23,6 +24,11 @@ const option = {
 app.use(cors()); // en este momento esta dejando pasar todo 
 
 routerApi(app);
+
+//Manejo de errores con middleware
+app.use(errorHandler);
+app.use(boomErrorHandler);
+app.use(error404Handler)
 
 app.listen(port, ()=>{
     console.log('prepared to work in the port ' + port)

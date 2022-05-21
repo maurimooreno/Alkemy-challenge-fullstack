@@ -22,7 +22,15 @@ const EgressSchema = {
         type: DataTypes.DATEONLY,
         allowNull: false,
         defaultValue: DataTypes.NOW
+    },
+    type:{
+        type: DataTypes.ENUM('ingress','egress'),
+        allowNull: false
+    },
+    state:{
+        type: DataTypes.ENUM('registered', 'created')
     }
+
 }
 
 class Egress extends Model {
