@@ -1,9 +1,7 @@
-const ingressRouter = require('./ingress.route')
-const egressRouter = require('./egress.router')
+const transactionRouter = require('./transaction.route')
 
 function routerApi (app) {
-  app.use('/ingress', ingressRouter);
-  app.use('/egress', egressRouter)
+  app.use('/transaction', transactionRouter);
 }
 
 module.exports = routerApi;

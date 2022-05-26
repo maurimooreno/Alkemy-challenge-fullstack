@@ -2,8 +2,7 @@ const joi = require('joi')
 
 const concept = joi.string().min(2).max(50)
 const amount = joi.number()
-const state = joi.string().valid('registered', 'created')
-const type = joi.string().valid('Egress', 'egress')
+const type = joi.string().valid('income', 'costs')
 const date = joi.date()
 const id = joi.string().guid({
     version: [
@@ -12,29 +11,27 @@ const id = joi.string().guid({
     ]
 })
 
-const getEgressSchema = joi.object({
+const getTransactionSchema = joi.object({
     id: id.required()
 })
 
-const createEgressSchema = joi.object({
+const createTransactionSchema = joi.object({
     concept: concept.required(),
     amount: amount.required(),
-    state: state.required(),
     type: type.required(),
     date
 })
 
-const updateEgressSchema = joi.object({
+const updateTransactionSchema = joi.object({
     id: id.required(),
     concept,
     amount,
-    state,
     type,
     date
 })
 
 module.exports = {
-    createEgressSchema,
-    getEgressSchema,
-    updateEgressSchema
+    createTransactionSchema,
+    getTransactionSchema,
+    updateTransactionSchema
 }

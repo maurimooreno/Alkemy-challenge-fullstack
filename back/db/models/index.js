@@ -1,9 +1,7 @@
-const {Ingress, IngressSchema} = require('./ingress.model')
-const {Egress, EgressSchema} = require('./egress.model')
+const {Transaction, TransactionSchema} = require('./transaction.model')
 
 function setupModels(sequelize){
-    Ingress.init(IngressSchema, Ingress.config(sequelize)),
-    Egress.init(EgressSchema, Egress.config(sequelize))
+    Transaction.init(TransactionSchema, Transaction.config(sequelize))
 }
 
 module.exports = setupModels;

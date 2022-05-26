@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const { createIngressSchema, getIngressSchema, updateIngressSchema } = require('../schemas/ingress.schema')
+const { createTransactionSchema, getTransactionSchema, updateTransactionSchema } = require('../schemas/transaction.schema')
 const validatorHandler = require('../middleware/validator.handler')
-const IngressService = require('../services/ingress.services')
-const service = new IngressService()
+const TransactionService = require('../services/transaction.services')
+const service = new TransactionService()
 
 //Get all
 router.get('/',
@@ -19,7 +19,7 @@ router.get('/',
 
 //Get one
 router.get('/:id',
-    validatorHandler(getIngressSchema, 'params'),
+    validatorHandler(getTransactionSchema, 'params'),
     async (req, res, next) => {
         try {
             const { id } = req.params
@@ -33,12 +33,12 @@ router.get('/:id',
 
 //Post
 router.post('/',
-    validatorHandler(createIngressSchema, 'body'),
+    validatorHandler(createTransactionSchema, 'body'),
     async (req, res, next) => {
         try {
             const data = req.body
-            const ingress = await service.create(data)
-            res.status(201).json(ingress)
+            const transaction = await service.create(data)
+            res.status(201).json(transaction)
         } catch (error) {
             next(error)
         }
@@ -47,12 +47,12 @@ router.post('/',
 
 //Patch
 router.patch('/',
-    validatorHandler(updateIngressSchema, 'body'),
+    validatorHandler(updateTransactionSchema, 'body'),
     async (req, res, next) => {
         try {
             const data = req.body
-            const ingressUpdate = await service.update(data)
-            res.status(200).json(ingressUpdate)
+            const transactionUpdate = await service.update(data)
+            res.status(200).json(transactionUpdate)
         } catch (error) {
             next(error)
         }
@@ -62,12 +62,12 @@ router.patch('/',
 
 //Delete
 router.delete('/:id',
-    validatorHandler(getIngressSchema, 'params'),
+    validatorHandler(getTransactionSchema, 'params'),
     async (req, res, next) => {
         try {
             const { id } = req.params
-            const ingressDelete = await service.delete(id)
-            res.status(200).json(ingressDelete)
+            const transactionDelete = await service.delete(id)
+            res.status(200).json(transactionDelete)
         } catch (error) {
             next(error)
         }

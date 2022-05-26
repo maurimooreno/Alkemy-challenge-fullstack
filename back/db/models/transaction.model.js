@@ -1,8 +1,8 @@
 const { Model, DataTypes, Sequelize } = require('sequelize')
 
-const INGRESS_TABLE = 'ingress';
+const TRANSACTION_TABLE = 'transaction';
 
-const IngressSchema = {
+const TransactionSchema = {
 
     id: {
         type: DataTypes.UUID,
@@ -24,15 +24,12 @@ const IngressSchema = {
         defaultValue: DataTypes.NOW
     },
     type:{
-        type: DataTypes.ENUM('ingress','egress'),
+        type: DataTypes.ENUM('costs','income'),
         allowNull: false
     },
-    state:{
-        type: DataTypes.ENUM('registered', 'created')
-    }
 }
 
-class Ingress extends Model {
+class Transaction extends Model {
     static associate() {
         // asociaciones
     }
@@ -40,11 +37,11 @@ class Ingress extends Model {
     static config(sequelize) {
         return {
             sequelize,
-            tableName: INGRESS_TABLE,
-            modelName: 'Ingress',
+            tableName: TRANSACTION_TABLE,
+            modelName: 'Transaction',
             timestamps: false
         }
     }
 }
 
-module.exports = { INGRESS_TABLE, IngressSchema, Ingress }
+module.exports = { TRANSACTION_TABLE, TransactionSchema, Transaction }

@@ -17,15 +17,7 @@ function boomErrorHandler (err, req, res, next) {
   }
 }
 
-function error404Handler (req, res,) {
-  res.status(404)
-  res.send ({
-  message: boom.notFound('The resource you are looking for does not exist')
-  })
-}
-
 module.exports = {
     errorHandler,
-    boomErrorHandler,
-    error404Handler
+    boomErrorHandler
 }
