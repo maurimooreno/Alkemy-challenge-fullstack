@@ -1,54 +1,108 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { deleteTransactionRegister } from "../../reducer";
+import { fetchDeleteTransactions } from "../../reducer";
+import deleteBotton from "../../asstets/deleteButton.png";
+import editBotton from "../../asstets/editButton.png";
 
-export default function List({transactions}){
+export default function List({ transactions, setEditModal, setDataModal }) {
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch()
+  const handleModal = (e) => {
+    e.preventDefault();
+    const obj = e.target.value;
+    const arrObj = obj.split(",");
+    const data = {
+      id: arrObj[0],
+      amount: arrObj[1],
+      concept: arrObj[2],
+      date: arrObj[3],
+      type: arrObj[4],
+    };
+    setDataModal(data);
+    setEditModal((state) => !state);
+  };
+  const handleAction = (e) => {
+    e.preventDefault();
+    const id = e.target.value;
+    dispatch(fetchDeleteTransactions(id));
+  };
 
-    const handleAction = (e) => {
-        e.preventDefault()
-        dispatch(deleteTransactionRegister(e.target.value))
-    }
+  const ingress = transactions?.filter((t) => t.type === "income");
+  const egress = transactions?.filter((t) => t.type === "costs");
 
-    const ingress = transactions.filter( t => t.type === 'income')
-    const egress = transactions.filter( t => t.type === 'costs')
-
-    return (
-        <div name='containerList' className="sm:flex sm:flex-col sm:w-[900px] sm:h-[500px] border-2 border-zinc-900">
-            <div className="sm:flex sm:justify-evenly sm:mb-[20px]">
-                <span>Concept</span>
-                <span>Amount</span>
-                <span>Date</span>
-                <span>Actions</span>
-            </div>
-            {
-                ingress?.map( (t) => (
-                    <div className="sm:flex sm:justify-evenly" key={t.id}>
-                        <p>{t.concept}</p>
-                        <p>{t.amount}</p>
-                        <p>{t.date}</p>
-                        <div>
-                            <button>edit</button>
-                            <button name='delete' value={t.id} onClick={handleAction}>delete</button>
-                        </div>
-                    </div>
-                ))
-            }
-            {
-                egress?.map( (t) => (
-                    <div className="sm:flex sm:justify-evenly "key={t.id}>
-                        <p>{t.concept}</p>
-                        <p>{t.amount}</p>
-                        <p>{t.date}</p>
-                        <div>
-                            <button>edit</button>
-                            <button name='delete' value={t.id} onClick={handleAction}>delete</button>
-                        </div>
-                    </div>
-                ))
-            }
-            <button>Create all</button>
-        </div>
-    )
+  return (
+    <div
+      name="containerList"
+      className="flex flex-col w-full sm:h-[370px] h-[360px] bg-zinc-100 rounded-md sm:mt-[10px] overflow-scroll"
+    >
+      <table className="text-center border border-collapse">
+        <thead className="border">
+          <tr>
+            <th className="sm:p-[10px]">Concept</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        {ingress?.map((t) => (
+          <tbody key={t.id} className="border">
+            <tr>
+              <td>{t.concept}</td>
+              <td>{t.amount}</td>
+              <td>{t.date}</td>
+              <td>
+                <div className="flex justify-center items-center space-x-2">
+                  <input
+                    value={[t.id, t.amount, t.concept, t.date, t.type]}
+                    onClick={handleModal}
+                    type="image"
+                    src={editBotton}
+                    alt="editButton"
+                    className="w-[20px] h-[20px]"
+                  />
+                  <input
+                    onClick={handleAction}
+                    value={t.id}
+                    type="image"
+                    src={deleteBotton}
+                    alt="deleteButton"
+                    className="w-[27px] h-[27px]"
+                  />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        ))}
+        {egress?.map((t) => (
+          <tbody key={t.id}>
+            <tr>
+              <td>{t.concept}</td>
+              <td>{t.amount}</td>
+              <td>{t.date}</td>
+              <td>
+                <div className="flex justify-center items-center space-x-2">
+                  <input
+                    value={[t.id, t.amount, t.concept, t.date, t.type]}
+                    onClick={handleModal}
+                    type="image"
+                    src={editBotton}
+                    alt="editButton"
+                    className="w-[20px] h-[20px]"
+                  />
+                  <input
+                    onClick={handleAction}
+                    value={t.id}
+                    type="image"
+                    src={deleteBotton}
+                    alt="deleteButton"
+                    className="w-[27px] h-[27px]"
+                  />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        ))}
+      </table>
+    </div>
+  );
 }

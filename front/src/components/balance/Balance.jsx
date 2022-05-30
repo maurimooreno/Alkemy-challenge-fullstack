@@ -36,12 +36,19 @@ export default function Balance() {
     calculateTotal();
   }, [transactions]);
   return (
-    <div
-      name="containerBalance"
-      className="border-2 border-emerald-700 sm:w-[200px] sm:h-[100px] sm:flex sm:flex-col sm:justify-around sm:items-center bg-pink-200"
-    >
-      <h1>TOTAL</h1>
-      <span>{total.toFixed(2)}</span>
+    <div className="flex justify-center">
+      <div
+        name="containerBalance"
+        className="w-[300px] sm:h-[200px] flex flex-col items-center sm:pt-[50px] bg-zinc-100 rounded-md"
+      >
+        <h1 className="pb-[20px] sm:text-3xl text-[24px] underline decoration-pink-500 decoration-8 font-bold">
+          BALANCE TOTAL
+        </h1>
+        <div className="flex flex-wrap justify-center sm:space-x-2 items-center">
+          <span className="text-4x1">Your balance is</span>
+          <p className="text-[30px] ">${total.toFixed(2)}</p>
+        </div>
+      </div>
     </div>
   );
 }
