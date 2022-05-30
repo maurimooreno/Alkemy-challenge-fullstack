@@ -17,22 +17,18 @@ class TransactionService {
     }
 
     async create(data) {
-        const { concept, amount, date, type, state } = data
-        Transaction.create({
+        const { concept, amount, date, type } = data
+        const transaction = await Transaction.create({
             concept,
             amount,
             type,
             date
         })
-            .catch((error) => {
-                throw boom.badData(error)
-            })
-
-        return { msg: 'successfully created' }
+        return transaction.toJSON()
     }
 
     async update(data) {
-        const { id, concept, date, amount, type, state } = data
+        const { id, concept, date, amount, type } = data
         const find = await Transaction.findByPk(id)
         if (!find) {
             throw boom.notFound('The income you are looking for does not exist')
@@ -48,7 +44,8 @@ class TransactionService {
                     where: { id: id }
                 }
             )
-            return { msg: 'Updated successfully' }
+            const transactionUpdate = await Transaction.findByPk(id)
+            return transactionUpdate
         }
     }
 
@@ -58,7 +55,7 @@ class TransactionService {
             throw boom.notFound('There is no register with that id')
         }else{
             await Transaction.destroy({ where: {id: id} })
-            return { msg: 'Register deleted successfully' }
+            return find
         }
     }
 }
